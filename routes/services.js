@@ -2,25 +2,48 @@ const express = require("express");
 const router = express.Router();
 const Service = require("../models/Service");
 const { authenticate, authorize } = require("../middleware/auth");
+const ServiceCategory = require("../models/ServiceCategory");
 
 // Create service
 router.post("/", authenticate, authorize(["superadmin", "manager"]), async (req, res) => {
-  const { title, body, image, startingPrice } = req.body;
-  const newService = new Service({ title, body, image, startingPrice });
+  const { title, body, image, startingPrice, category } = req.body;
+  const newService = new Service({ title, body, image, startingPrice, category });
   await newService.save();
   res.status(201).json(newService);
 });
 
 // Get all services (public)
 router.get("/", async (req, res) => {
-  const services = await Service.find();
+  const services = await Service.find().populate('category', 'name');;
   res.json(services);
+});
+
+/* group services by category */
+router.get('/grouped-by-category', async (req, res) => {
+  try {
+    const categories = await ServiceCategory.find();
+
+    const grouped = await Promise.all(
+      categories.map(async (cat) => {
+        const services = await Service.find({ category: cat._id }).select('title image startingPrice');
+        return {
+          _id: cat._id,
+          name: cat.name,
+          services,
+        };
+      })
+    );
+
+    res.json({ message: 'Services grouped by category', data: grouped });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to group services by category', error: err.message });
+  }
 });
 
 //Get single service by id
 router.get('/:id', async (req, res) => {
   try {
-    const service = await Service.findById(req.params.id);
+    const service = await Service.findById(req.params.id).populate('category', 'name');
 
     if (!service) {
       return res.status(404).json({ message: 'Service not found' });
@@ -37,10 +60,10 @@ router.get('/:id', async (req, res) => {
 
 // Update service
 router.put("/:id", authenticate, authorize(["superadmin", "manager"]), async (req, res) => {
-  const { title, body, image, startingPrice } = req.body;
+  const { title, body, image, startingPrice, category } = req.body;
   const updated = await Service.findByIdAndUpdate(
     req.params.id,
-    { title, image, body, startingPrice },
+    { title, image, body, startingPrice, category },
     { new: true }
   );
   res.json(updated);
@@ -64,5 +87,8 @@ router.delete("/:id", authenticate, authorize(["superadmin", "manager"]), async 
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+
+
 
 module.exports = router;

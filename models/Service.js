@@ -5,6 +5,10 @@ const ServiceSchema = new mongoose.Schema({
   body: { type: String, required: true },
   image: { type: String },
   startingPrice: { type: Number, required: true },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ServiceCategory',
+  },
 });
 
 module.exports = mongoose.model('Service', ServiceSchema);

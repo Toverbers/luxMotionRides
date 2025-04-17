@@ -6,6 +6,7 @@ const contactRoute = require('./routes/contact');
 const faqRoutes = require('./routes/faq');
 const uploadRoute = require('./routes/upload');
 const reviewRoute = require('./routes/review');
+const serviceCategoryRoute = require('./routes/serviceCategory');
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/api/v1/quote', require('./routes/quote'));
 app.use('/api/v1/faqs', faqRoutes);
 app.use('/api/v1', uploadRoute);
 app.use('/api/v1', reviewRoute);
+app.use('/api/v1/category', serviceCategoryRoute);
 app.use('/api/v1/admin/stats', require('./routes/adminStats'));          // Admin dashboard stats
 app.use('/api/v1/visitor', require('./routes/visitor'));
 
