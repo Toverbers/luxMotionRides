@@ -24,7 +24,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.log(err));
 
 // Routes
-app.use('/api/v1/auth/admin/login', require('./routes/auth'));
+app.use('/api/v1/auth/admin/', require('./routes/auth'));
 app.use('/api/v1/services', require('./routes/services'));
 app.use('/api/v1/bookings', require('./routes/bookings'));
 app.use('/api/v1/contact', contactRoute);
