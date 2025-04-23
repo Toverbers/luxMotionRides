@@ -87,18 +87,18 @@ router.get("/", authenticate, authorize(["superadmin", "manager", "viewer"]), as
 router.get('/:id', authenticate, authorize(["superadmin", "manager", "viewer"]), async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id)
-      .populate('user', 'name email')
-      .populate('service', 'title startingPrice')
-      .populate('vehicleType', 'name pricePerKm');
+      //.populate('user', 'firstname lastname email')
+      .populate('serviceId', 'title body image startingPrice')
+      //.populate('vehicleType', 'name pricePerKm');
 
     if (!booking) {
       return res.status(404).json({ message: 'Booking not found' });
     }
 
     // Optionally restrict access to user's own bookings unless admin
-    if (req.user.role !== 'admin' && booking.user._id.toString() !== req.user._id.toString()) {
+    /* if (req.user.role !== 'admin' && booking.user._id.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: 'Unauthorized' });
-    }
+    } */
 
     res.status(200).json({
       message: 'Booking fetched successfully',

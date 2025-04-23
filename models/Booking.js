@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const BookingSchema = new mongoose.Schema({
-  serviceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Service', required: true },
+  serviceId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Service', 
+    required: true
+  },
   userDetails: {
     name: { type: String, required: true },
     email: { type: String, required: true },
@@ -19,11 +23,11 @@ const BookingSchema = new mongoose.Schema({
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },
    },
-  airline: { type: String, required: true },
-  flightNo: { type: String, required: true },
-  checkedBag: { type: String, required: true },
-  carryOn: { type: String, required: true },
-  travelPet: { type: String, required: true },
+  airline: { type: String,  },
+  flightNo: { type: String,  },
+  checkedBag: { type: String,  },
+  carryOn: { type: String,  },
+  travelPet: { type: String,  },
   //location: { type: String, required: true },
 
 });
