@@ -7,7 +7,7 @@ require('dotenv').config();
 // Your Google API key and Place ID
 const GOOGLE_API_KEY = 'AIzaSyAWAiOyldj2I1xfkBifO63Fjna6MrT_q_4'; // Replace with your key
 //const PLACE_ID = 'ChIJzwzzE7TZTRARyhmfBCuqhaE'; // Replace with your place ID
-const PLACE_ID = 'ChIJoWKmuB9vbIcRhD58HjaYqlo'; // Replace with your place ID
+const PLACE_ID = 'ChIJyYaRVOVNjUERT6FCmIS8La4'; // Replace with your place ID
 
 router.get('/reviews', async (req, res) => {
   try {
