@@ -6,14 +6,21 @@ const nodemailer = require("nodemailer");
 
 // Email config
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    /* service: 'gmail',
    host: 'smtp.gmail.com',
    port: 465,
    secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
-  },
+  }, */
+      host: 'smtp.titan.email', // Titan's SMTP server
+      port: 465, // SSL port
+      secure: true, // true for 465, false for other ports
+      auth: {
+          user: 'do-not-reply@luxmotionrides.com', // Your Titan email address
+          pass: 'Password@123' // Your Titan email password
+      }
 });
 
 // Create booking
