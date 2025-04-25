@@ -18,8 +18,8 @@ const transporter = nodemailer.createTransport({
       port: 465, // SSL port
       secure: true, // true for 465, false for other ports
       auth: {
-          user: 'do-not-reply@luxmotionrides.com', // Your Titan email address
-          pass: 'Password@123' // Your Titan email password
+          user: process.env.EMAIL_USER, // Your Titan email address
+          pass: process.env.EMAIL_PASS // Your Titan email password
       }
 });
 
@@ -34,7 +34,8 @@ router.post("/", async (req, res) => {
 
   // Email to admin
   const adminMail = {
-    from: process.env.EMAIL_USER,
+    //from: process.env.EMAIL_USER,
+    from: 'do-not-reply@luxmotionrides.com',
     to: process.env.ADMIN_EMAIL,
     subject: `New Booking - ${service.title}`,
     html: `<h3>New Booking</h3>
@@ -46,17 +47,41 @@ router.post("/", async (req, res) => {
            <p><strong>Time:</strong> ${time}</p>
            <p><strong>Pickup Location:</strong> ${pickup.address}</p>
            <p><strong>Drop Off Location:</strong> ${dropoff.address}</p>
-           <p><strong>Airline Name:</strong> ${airline}</p>
-           <p><strong>Flight Number:</strong> ${flightNo}</p>
-           <p><strong>Checked Bag:</strong> ${checkedBag}</p>
-           <p><strong>Carry On:</strong> ${carryOn}</p>
-           <p><strong>Have Pet:</strong> ${travelPet}</p>
+           <p><strong>Airline Name:</strong> ${airline || 'None'}</p>
+           <p><strong>Flight Number:</strong> ${flightNo || 'None'}</p>
+           <p><strong>Checked Bag:</strong> ${checkedBag || 'None'}</p>
+           <p><strong>Carry On:</strong> ${carryOn || 'None'}</p>
+           <p><strong>Have Pet:</strong> ${travelPet || 'None'}</p>
            `
   };
 
+  const adminHtml = generateAdminBookingEmailTemplate({
+        title: 'New Booking',
+        name: userDetails.name,
+        email: userDetails.name,
+        phone: userDetails.name,
+        date, 
+        time,
+        serviceType: service.title,
+        pickup: pickup.address,
+        pickupLatitude: pickup.latitude,
+        pickupLongitude: pickup.longitude,
+        dropoff: dropoff.address,
+        dropoffLatitude: dropoff.latitude,
+        dropoffLongitude: dropoff.longitude,
+        //noOfPeople,
+        airline, 
+        flightNo, 
+        checkedBag, 
+        carryOn, 
+        travelPet,
+        
+      });
+
   // Email to user
   const userMail = {
-    from: process.env.EMAIL_USER,
+    //from: process.env.EMAIL_USER,
+    from: 'do-not-reply@luxmotionrides.com',
     to: userDetails.email,
     subject: `Booking Confirmation - ${service.title}`,
     html: `<h3>Your booking is confirmed!</h3>
@@ -77,14 +102,21 @@ router.post("/", async (req, res) => {
            <p style="margin-top: 5px;">We’ll be in touch soon!</p>`
   };
 
-  await transporter.sendMail(adminMail);
+  //await transporter.sendMail(adminMail);
   await transporter.sendMail(userMail);
+  await transporter.sendMail({
+    from: `"Lux Motion Rides" <${process.env.EMAIL_USER}>`,
+    to: process.env.ADMIN_EMAIL,
+    subject: 'New Quote Request Form Submission',
+    html: adminHtml
+  });
 
   res.status(201).json({ message: "Booking created and emails sent." });
 });
 
 // Get all bookings (admin only)
 const { authenticate, authorize } = require("../middleware/auth");
+const { generateAdminBookingEmailTemplate } = require("../utils/bookingTemplate");
 router.get("/", authenticate, authorize(["superadmin", "manager", "viewer"]), async (req, res) => {
   const bookings = await Booking.find().populate("serviceId");
   res.json(bookings);

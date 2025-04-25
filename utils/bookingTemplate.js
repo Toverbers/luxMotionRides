@@ -1,8 +1,8 @@
-function generateQuoteEmailTemplate({ title, email,  serviceType, firstname, lastname, phone, pickup, dropoff, noOfPeople, note }) {
+function generateBookingEmailTemplate({ title, email, name, date, time, serviceType, firstname, lastname, phone, pickup, dropoff, noOfPeople, note }) {
     const signature = `
       <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #555;">
-    <p style="margin: 0 0 8px;">Best regards,<br/><strong>Lux Motion Rides</strong></p>
-    <p style="margin: 0;">Contact: <a href="mailto:support@luxmotionrides.com" style="color: #555;">support@luxmotionrides.com</a></p>
+    <p style="margin: 0 0 8px;">Best regards,<br/><strong>LuxMotion</strong></p>
+    <p style="margin: 0;">Contact: <a href="mailto:support@luxmotion.com" style="color: #555;">support@luxmotion.com</a></p>
     <p style="margin: 8px 0;">Follow us:</p>
     <div style="margin-top: 8px;">
       <a href="https://facebook.com/yourcompany" target="_blank" style="margin-right: 10px;">
@@ -51,7 +51,7 @@ function generateQuoteEmailTemplate({ title, email,  serviceType, firstname, las
   }
 
 
-function generateAdminQuoteEmailTemplate({ title, email,  serviceType, firstname, lastname, phone, pickup, dropoff, noOfPeople, note, pickupLatitude, pickupLongitude, dropoffLatitude, dropoffLongitude}) {
+function generateAdminBookingEmailTemplate({ title, email, name, date, time, serviceType, airline, flightNo, checkedBag, carryOn, travelPet,  phone, pickup, dropoff, noOfPeople, note, pickupLatitude, pickupLongitude, dropoffLatitude, dropoffLongitude}) {
     const signature = `
       <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #555;">
     <p style="margin: 0 0 8px;">Best regards,<br/><strong>Lux Motion Rides</strong></p>
@@ -94,17 +94,21 @@ function generateAdminQuoteEmailTemplate({ title, email,  serviceType, firstname
        
         <p style="color: #555; font-size: 16px;">Hello Admin, there's a new quote request. below are the details</p>
         <p style="color: #555; font-size: 16px;"><Strong>Service Type:</strong> ${serviceType}</p>
-        <p style="color: #555; font-size: 16px;"><Strong>Firstname:</strong> ${firstname}</p>
-        <p style="color: #555; font-size: 16px;"><Strong>Lastname:</strong> ${lastname}</p>
+        <p style="color: #555; font-size: 16px;"><Strong>Name:</strong> ${name}</p>
         <p style="color: #555; font-size: 16px;"><Strong>Email:</strong> ${email}</p>
         <p style="color: #555; font-size: 16px;"><Strong>Phone Number:</strong> ${phone}</p>
+        <p style="color: #555; font-size: 16px;"><Strong>Phone Number:</strong> on ${date} by ${time}</p>
         <p style="color: #555; font-size: 16px;"><Strong>Pickup Address:</strong> ${pickup}</p>
     
         <p><a href="https://www.google.com/maps?q=${pickupLatitude},${pickupLongitude}" target="_blank">View pickup on Google Maps</a></p>
         <p style="color: #555; font-size: 16px;"><Strong>Drop Off Address:</strong> ${dropoff}</p>
         <p><a href="https://www.google.com/maps?q=${dropoffLatitude},${dropoffLongitude}" target="_blank">View Drop off on Google Maps</a></p>
         <p style="color: #555; font-size: 16px;"><Strong>Number of Persons:</strong> ${noOfPeople}</p>
-        <p style="color: #555; font-size: 16px;"><Strong>Note:</strong> ${note}</p>
+        <p style="color: #555; font-size: 16px;"><strong>Airline Name:</strong> ${airline || 'None'}</p>
+           <p style="color: #555; font-size: 16px;"><strong>Flight Number:</strong> ${flightNo || 'None'}</p>
+           <p style="color: #555; font-size: 16px;"><strong>Checked Bag:</strong> ${checkedBag || 'None'}</p>
+           <p style="color: #555; font-size: 16px;"><strong>Carry On:</strong> ${carryOn || 'None'}</p>
+           <p style="color: #555; font-size: 16px;"><strong>Have Pet:</strong> ${travelPet || 'None'}</p>
         <br/>
         <h2>View the Directions on map</h2>
       <p style="text-align: center;"><a style="background-color: #c0392b; padding: 10px; padding-left: 12px; padding-right: 12px; font-size: 16px; color: #fff; text-decoration: none; border-radius: 5px" href="${createDirectionsLink(pickupLatitude, pickupLongitude, dropoffLatitude, dropoffLongitude)}" target="_blank">Get Directions</a></p>
@@ -116,5 +120,5 @@ function generateAdminQuoteEmailTemplate({ title, email,  serviceType, firstname
   }
   
   //module.exports = generateQuoteEmailTemplate;
-  module.exports = { generateQuoteEmailTemplate, generateAdminQuoteEmailTemplate };
+  module.exports = { generateBookingEmailTemplate, generateAdminBookingEmailTemplate };
   
