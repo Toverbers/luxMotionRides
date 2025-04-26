@@ -89,6 +89,29 @@ router.delete("/:id", authenticate, authorize(["superadmin", "manager"]), async 
 });
 
 
+// @desc Get all services by category ID
+// @route GET /api/services/by-category/:categoryId
+// @access  Public
+router.get('/by-category/:categoryId', async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+
+    const services = await Service.find({ category: categoryId }).populate('category', 'name');
+
+    res.json({
+      message: 'Services fetched by category',
+      data: services,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Failed to fetch services by category',
+      error: error.message,
+    });
+  }
+});
+
+
+
 
 
 module.exports = router;
