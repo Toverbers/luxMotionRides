@@ -3,6 +3,7 @@ const router = express.Router();
 const Booking = require("../models/Booking");
 const Service = require("../models/Service");
 const nodemailer = require("nodemailer");
+const moment = require('moment');
 
 // Email config
 const transporter = nodemailer.createTransport({
@@ -62,7 +63,7 @@ router.post("/", async (req, res) => {
         name: userDetails.name,
         email: userDetails.email,
         phone: userDetails.phone,
-        date, 
+        date: moment(date).format('DD MMMM YYYY'), 
         time,
         noOfPeople, 
         note,
@@ -93,7 +94,7 @@ router.post("/", async (req, res) => {
            <p><strong>Email:</strong> ${userDetails.email}</p>
            <p><strong>Phone:</strong> ${userDetails.phone}</p>
            <p><strong>Service:</strong> ${service.title}</p>
-           <p><strong>Chosen Date:</strong> ${date}</p>
+           <p><strong>Chosen Date:</strong> ${moment(date).format('DD MMMM YYYY')}</p>
            <p><strong>Chosen Time:</strong> ${time}</p>
            <p><strong>Chosen Time:</strong> ${noOfPeople}</p>
            <p><strong>Chosen Time:</strong> ${note}</p>
