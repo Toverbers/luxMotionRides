@@ -97,13 +97,14 @@ function generateAdminBookingEmailTemplate({ title, email, name, date, time, ser
         <p style="color: #555; font-size: 16px;"><Strong>Name:</strong> ${name}</p>
         <p style="color: #555; font-size: 16px;"><Strong>Email:</strong> ${email}</p>
         <p style="color: #555; font-size: 16px;"><Strong>Phone Number:</strong> ${phone}</p>
-        <p style="color: #555; font-size: 16px;"><Strong>Phone Number:</strong> on ${date} by ${time}</p>
+        <p style="color: #555; font-size: 16px;"><Strong>Date:</strong> on ${date} by ${time}</p>
         <p style="color: #555; font-size: 16px;"><Strong>Pickup Address:</strong> ${pickup}</p>
     
         <p><a href="https://www.google.com/maps?q=${pickupLatitude},${pickupLongitude}" target="_blank">View pickup on Google Maps</a></p>
         <p style="color: #555; font-size: 16px;"><Strong>Drop Off Address:</strong> ${dropoff}</p>
         <p><a href="https://www.google.com/maps?q=${dropoffLatitude},${dropoffLongitude}" target="_blank">View Drop off on Google Maps</a></p>
         <p style="color: #555; font-size: 16px;"><Strong>Number of Persons:</strong> ${noOfPeople}</p>
+        <p style="color: #555; font-size: 16px;"><Strong>Note:</strong> ${note}</p>
         <p style="color: #555; font-size: 16px;"><strong>Airline Name:</strong> ${airline || 'None'}</p>
            <p style="color: #555; font-size: 16px;"><strong>Flight Number:</strong> ${flightNo || 'None'}</p>
            <p style="color: #555; font-size: 16px;"><strong>Checked Bag:</strong> ${checkedBag || 'None'}</p>

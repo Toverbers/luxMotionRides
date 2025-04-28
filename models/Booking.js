@@ -11,6 +11,8 @@ const BookingSchema = new mongoose.Schema({
     email: { type: String, required: true },
     phone: { type: String, required: true },
   },
+  noOfPeople: { type: String,  }, 
+  note: { type: String,  },
   date: { type: Date, required: true },
   time: { type: String, required: true },
   pickup: { 

@@ -25,8 +25,8 @@ const transporter = nodemailer.createTransport({
 
 // Create booking
 router.post("/", async (req, res) => {
-  const { serviceId, userDetails, date, time, pickup, dropoff, airline, flightNo, checkedBag, carryOn, travelPet } = req.body;
-  const booking = new Booking({ serviceId, userDetails, date, time, pickup, dropoff, airline, flightNo, checkedBag, carryOn, travelPet });
+  const { serviceId, userDetails, date, time, pickup, dropoff, airline, flightNo, checkedBag, carryOn, travelPet, noOfPeople, note } = req.body;
+  const booking = new Booking({ serviceId, userDetails, date, time, pickup, dropoff, airline, flightNo, checkedBag, carryOn, travelPet, noOfPeople, note });
   await booking.save();
 
   // Get service details
@@ -45,6 +45,8 @@ router.post("/", async (req, res) => {
            <p><strong>Service:</strong> ${service.title}</p>
            <p><strong>Date:</strong> ${date}</p>
            <p><strong>Time:</strong> ${time}</p>
+           <p><strong>Time:</strong> ${noOfPeople}</p>
+           <p><strong>Time:</strong> ${note}</p>
            <p><strong>Pickup Location:</strong> ${pickup.address}</p>
            <p><strong>Drop Off Location:</strong> ${dropoff.address}</p>
            <p><strong>Airline Name:</strong> ${airline || 'None'}</p>
@@ -58,10 +60,12 @@ router.post("/", async (req, res) => {
   const adminHtml = generateAdminBookingEmailTemplate({
         title: 'New Booking',
         name: userDetails.name,
-        email: userDetails.name,
-        phone: userDetails.name,
+        email: userDetails.email,
+        phone: userDetails.phone,
         date, 
         time,
+        noOfPeople, 
+        note,
         serviceType: service.title,
         pickup: pickup.address,
         pickupLatitude: pickup.latitude,
@@ -69,7 +73,6 @@ router.post("/", async (req, res) => {
         dropoff: dropoff.address,
         dropoffLatitude: dropoff.latitude,
         dropoffLongitude: dropoff.longitude,
-        //noOfPeople,
         airline, 
         flightNo, 
         checkedBag, 
@@ -92,13 +95,15 @@ router.post("/", async (req, res) => {
            <p><strong>Service:</strong> ${service.title}</p>
            <p><strong>Chosen Date:</strong> ${date}</p>
            <p><strong>Chosen Time:</strong> ${time}</p>
+           <p><strong>Chosen Time:</strong> ${noOfPeople}</p>
+           <p><strong>Chosen Time:</strong> ${note}</p>
            <p><strong>Pickup Location:</strong> ${pickup.address}</p>
            <p><strong>Drop Off Location:</strong> ${dropoff.address}</p>
-           <p><strong>Airline Name:</strong> ${airline}</p>
-           <p><strong>Flight Number:</strong> ${flightNo}</p>
-           <p><strong>Checked Bag:</strong> ${checkedBag}</p>
-           <p><strong>Carry On:</strong> ${carryOn}</p>
-           <p><strong>Have Pet:</strong> ${travelPet}</p>
+           <p><strong>Airline Name:</strong> ${airline || 'None'}</p>
+           <p><strong>Flight Number:</strong> ${flightNo || 'None'}</p>
+           <p><strong>Checked Bag:</strong> ${checkedBag || 'None'}</p>
+           <p><strong>Carry On:</strong> ${carryOn || 'None'}</p>
+           <p><strong>Have Pet:</strong> ${travelPet || 'None'}</p>
            <p style="margin-top: 5px;">We’ll be in touch soon!</p>`
   };
 
