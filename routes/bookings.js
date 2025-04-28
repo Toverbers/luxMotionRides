@@ -89,6 +89,7 @@ router.post("/", async (req, res) => {
     to: userDetails.email,
     subject: `Booking Confirmation - ${service.title}`,
     html: `<h3>Your booking is confirmed!</h3>
+           <p>Thank you for booking with us, we have received your booking. please stay active while we confirm your details. </p>
            <p><strong>Service:</strong> ${service.title}</p>
            <p><strong>Name:</strong> ${userDetails.name}</p>
            <p><strong>Email:</strong> ${userDetails.email}</p>
