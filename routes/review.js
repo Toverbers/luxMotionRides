@@ -5,7 +5,8 @@ require('dotenv').config();
 
 
 // Your Google API key and Place ID
-const GOOGLE_API_KEY = 'AIzaSyAWAiOyldj2I1xfkBifO63Fjna6MrT_q_4'; // Replace with your key
+//const GOOGLE_API_KEY = 'AIzaSyA4rlyTbtwbUHtCoAdscwwNEhGVmWj1ZSU'; // Replace with your key
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY; // Replace with your key
 //const PLACE_ID = 'ChIJzwzzE7TZTRARyhmfBCuqhaE'; // Replace with your place ID
 const PLACE_ID = 'ChIJyYaRVOVNjUERT6FCmIS8La4'; // Replace with your place ID
 
